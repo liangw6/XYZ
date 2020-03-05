@@ -110,11 +110,10 @@ if __name__ == '__main__':
     # UNCOMMENT THIS LINE TO SEE EVALUATION FUNCTION THAT PLACES HIGHER IMPORTANCE ON BLOCKING OBSCURE TRACKERS
     # eval.set_evaluation_function(alt_evaluation_function)
 
-    print("All websites:")
-    print("\tGhostery:\t", eval.blocker_score("Ghostery"))
-    print("\tFirefox:\t", eval.blocker_score("Firefox"))
-    print("\tPrivacyBadger:\t", eval.blocker_score("PrivacyBadger"))
-
+    print("Blockers\tGhostery\tFirefox\t\tPrivacyBadger")
+    print("All websites\t{:.3f}\t\t{:.3f}\t\t{:.3f}".format(eval.blocker_score("Ghostery"),
+                                                             eval.blocker_score("Firefox"),
+                                                             eval.blocker_score("PrivacyBadger")))
     
     # To evaluate each blocker on a subset of the collected websites, simply create a subset of websites that should be
     # considered i.e. subset = set(); subset.add(NEWS_WEBSITE); ... and call eval.blocker_subset_score("Ghostery", subset) etc.
@@ -123,20 +122,14 @@ if __name__ == '__main__':
         website_by_type = yaml.safe_load(stream)
     for site_category in website_by_type.keys():
         subset = set(website_by_type[site_category])
-        print(site_category + ": ")
-        print("\twebsites:\t", ", ".join(subset))
-        print("\tGhostery:\t", eval.blocker_subset_score("Ghostery", subset))
-        print("\tFirefox:\t", eval.blocker_subset_score("Firefox", subset))
-        print("\tPrivacyBadger:\t", eval.blocker_subset_score("PrivacyBadger", subset))
+        if (len(site_category) < 5):
+            site_category = site_category + "\t"
+        print("{}\t{:.3f}\t\t{:.3f}\t\t{:.3f}".format(
+            site_category,
+            eval.blocker_subset_score("Ghostery", subset),
+            eval.blocker_subset_score("Firefox", subset),
+            eval.blocker_subset_score("PrivacyBadger", subset)))
 
-
-
-    # subset = set()
-    # subset.add(...)
-
-    # print("Ghostery:\t", eval.blocker_subset_score("Ghostery", subset))
-    # print("Firefox:\t", eval.blocker_subset_score("Firefox", subset))
-    # print("PrivacyBadger:\t", eval.blocker_subset_score("PrivacyBadger", subset))
 
 
 
