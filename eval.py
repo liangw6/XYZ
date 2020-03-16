@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 import yaml
+import pickle
 
 GHOSTERY_DATA_FILE_PATH = "ghostery.csv"
 FIREFOX_DATA_FILE_PATH = "firefox.csv"
@@ -81,6 +82,11 @@ class Evaluator():
     def set_evaluation_function(self, evaluation_function):
         self.eval_func = evaluation_function
 
+    def save_website_trackers_to_pickle(self, file_name):
+        with open(file_name, 'wb') as handle:
+            print("Saving website and tracker info into {}".format(file_name))
+            pickle.dump(self.website_trackers, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
 '''
 Evaluation function used to evaluate each particular blocker
 
@@ -129,6 +135,9 @@ if __name__ == '__main__':
             eval.blocker_subset_score("Ghostery", subset),
             eval.blocker_subset_score("Firefox", subset),
             eval.blocker_subset_score("PrivacyBadger", subset)))
+
+    # Uncomment this line to save each website and its corresponding tracker informaiton into a pickle file
+    # eval.save_website_trackers_to_pickle('web2tracker.pkl')
 
 
 
